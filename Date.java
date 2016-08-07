@@ -1,3 +1,5 @@
+
+
 /* Date.java */
 
 import java.io.*;
@@ -34,22 +36,25 @@ class Date {
    *  a valid date, the program halts with an error message.
    */
   public Date(String s) {
-      for(int i=1;i<=2;i++){
-          if(s.substring(i,i).compareTo("/")==0){
-              this.month=s.substring(0,i-1);
-          }
-             
-      }
-      for(int j=i-1;j<=i+2;j++){
-          if(s.substring(j,j).compareTo("/")==0){
-              this.day=s.substring(i,j-1);
-          }
-      }
-      for(int k=j-1;k<j+4;k++){
-          if(s.substring(k,k)/compareTo("/")==0){
-              this.year=s.substring(j,k-1);
-          }
-      }
+	  String datePattern="(\\d{1,2}\\/\\d{1,2}\\/\\d{1,4})";
+	  if(s.matches(datePattern)){
+		  String[] split=s.split("/");
+		  int m = Integer.parseInt(split[0]);
+		  int d = Integer.parseInt(split[1]);
+		  int y = Integer.parseInt(split[2]);
+		  if(isValidDate(m,d,y)){
+			  this.month=m;
+			  this.day=d;
+			  this.year=y;
+		  }else{
+			  System.out.println("Not a valid date!");
+			  System.exit(0);
+		  }
+		  
+	  }else{
+		  System.out.println("Not a valid date!!");
+		  System.exit(0);
+	  }
 
   }
 
@@ -59,11 +64,13 @@ class Date {
   public static boolean isLeapYear(int year) {
       // replace this line with your solution
       if(year%4==0){
-        if(year%100!=0){
-           if(year%400==0){
-               return true;
-           } else return false;
-        }else return false;  
+        if(year%100==0){
+        	if(year%400==0){
+            	return true;
+            }else return false;
+        }
+        else return true;
+         
       }else return false;
   }
 
@@ -78,9 +85,17 @@ class Date {
          if(Date.isLeapYear(year)==true){
              return 29;
          }else return 28;
-     }if(month%2!=0&month==8){
-         return 31;
-     }else return 30;
+     }else{
+    	 switch (month){
+    		 case 2:
+    		 case 4:
+    		 case 6:
+    		 case 9:
+    		 case 11: return 30;
+    		 default: return 31;
+    		 }
+     }
+     
      
   }
 
@@ -105,9 +120,12 @@ class Date {
    *  12/7/2006 or 3/21/407.
    *  @return a String representation of this date.
    */
-  public String toString() {
+  public String toString() {//if don't override toString(),System.out will print
+	  						//default toString() implementation(Class@somenumber)
     // replace this line with your solution
-    
+    String s;
+    s=this.month+"/"+this.day+"/"+this.year;
+    return s;
   }
 
   /** Determines whether this Date is before the Date d.
@@ -160,7 +178,7 @@ class Date {
         sum=sum+Date.daysInMonth(m,this.year);
     }
     sum=sum+this.day;
-    
+    return sum;
   }
 
   /** Determines the difference in days between d and this Date.  For example,
@@ -171,35 +189,38 @@ class Date {
   public int difference(Date d) {
     // replace this line with your solution
     int dif=0;
-    if(this.isBefore(d){
+    if(this.isBefore(d)){
         for(int i=1;i<=d.year-this.year;i++){
-            if(Date.isLeapYear(d.year+i-1)){
+            if(Date.isLeapYear(this.year+i-1)){
                 dif=dif+366;
             }else dif=dif+365;
         }
-        dif=-(d.dayInYear+dif-this.dayInYear);
+        dif=-(d.dayInYear()+dif-this.dayInYear());
         
     }
     if(this.isAfter(d)){
         for(int j=1;j<=this.year-d.year;j++){
-            if(Date.isLeapYear(this.year+j-1)){
+            if(Date.isLeapYear(d.year+j-1)){
                 dif=dif+366;
             }else dif=dif+365;
         }
-        dif=this.dayInYear+dif-d.dayInYear;
+        dif=this.dayInYear()+dif-d.dayInYear();
     }
-    else{
-        return 0;
-        }
-    }
+    
+        return dif;
+        
+    
   }
 
   public static void main(String[] argv) {
+	  //test leap year
+	  
+	  System.out.println(Date.isLeapYear(1976));
     System.out.println("\nTesting constructors.");
     Date d1 = new Date(1, 1, 1);
-    System.out.println("Date should be 1/1/1: " + d1);
-    d1 = new Date("2/4/2");
-    System.out.println("Date should be 2/4/2: " + d1);
+    System.out.println("Date should be 1/1/1: " + d1);//System.out is a PrintStream,when the print()method of this class
+    d1 = new Date("2/4/2");							  //is called with an object as an argument, it will print the
+    System.out.println("Date should be 2/4/2: " + d1);// result of this object. (call object's.toString()method)
     d1 = new Date("2/29/2000");
     System.out.println("Date should be 2/29/2000: " + d1);
     d1 = new Date("2/29/1904");
@@ -251,5 +272,7 @@ class Date {
                        d3.difference(d4));
     System.out.println(d5 + " - " + d4  + " should be 48762: " + 
                        d5.difference(d4));
+    
   }
 }
+
