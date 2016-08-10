@@ -1,3 +1,4 @@
+
 /* Homework3.java */
 
 public class Homework3 {
@@ -24,16 +25,22 @@ public class Homework3 {
     int m=0;
     int n=0;
     int[] ints2 = new int[ints.length];
-    for(int i=0;i<ints.length;i++){
+    int i=0;
+    for( i=0;i<ints.length-1;i++){
         if(ints[i]==ints[i+1]){
             ints2[ints.length-m-1]=-1;
             m++;
         }else{
             ints2[n]=ints[i];
-            n++
+            n++;
         }      
     }
-    ints=ints2;
+    ints2[n]=ints[i];
+    for(int j=0;j<ints2.length;j++){
+    	ints[j]=ints2[j];
+    }
+  //  ints=ints2; //failed. ints points to ints2 but when finish this method, ints2 was erased
+    
   }
 
   /**
@@ -182,3 +189,4 @@ public class Homework3 {
   }
 
 }
+

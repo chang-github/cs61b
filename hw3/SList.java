@@ -1,3 +1,5 @@
+
+
 /* SList.java */
 
 /**
@@ -112,9 +114,10 @@ public class SList {
 
   public void squish() {
     // Fill in your solution here.  (Ours is eleven lines long.)
-    SListNode s1= head;
-    SListNode s2= head.next;
-    if(head!=null){
+	if(head!=null){
+		SListNode s1= head;
+		SListNode s2= head.next;
+    
         while(s2!=null){
             if(s1.item.equals(s2.item)){
                 s1.next=s2.next;
@@ -122,8 +125,9 @@ public class SList {
             }else s1=s2;
             s2=s2.next;
         }
-    }else return null;
-   
+	} 
+    return;
+
   }
 
   /**
@@ -139,17 +143,21 @@ public class SList {
 
   public void twin() {
     // Fill in your solution here.  (Ours is seven lines long.)
-    SListNode s1=head;
-    SListNode s2=head.next;
-    while(s2!=null){
-        s1.next=new SListNode(s1.item,s2);
-        s1=s2;
-        s2=s2.next;
-        this.size++;
+    if(head!=null){
+    	SListNode s1=head;
+    	SListNode s2=head.next;
+    	while(s2!=null){
+    		s1.next=new SListNode(s1.item,s2);
+    		s1=s2;
+    		s2=s2.next;
+    		this.size++;
+    	}
+    	s1.next=new SListNode(s1.item,null);
+    	this.size++;
     }
-    
-  }
+    return;
 
+  }
   /**
    *  toString() converts the list to a String.
    *  @return a String representation of the list.
